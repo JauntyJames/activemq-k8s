@@ -133,9 +133,9 @@ data:
 
     <bean id="mysql-ds" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
     <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-    <property name="url" value="jdbc:mysql://10.0.10.187/activemq?relaxAutoCommit=true"/>
+    <property name="url" value="jdbc:mysql://<MySQLIPAddress>/activemq?relaxAutoCommit=true"/>
     <property name="username" value="activemq"/>
-    <property name="password" value="Activemq@2"/>
+    <property name="password" value="<MySecurePassword>"/>
     <!--<property name="maxActive" value="200"/>-->
     <property name="poolPreparedStatements" value="true"/>
     </bean>
