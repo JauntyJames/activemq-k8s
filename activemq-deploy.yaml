@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
   labels:
     app: active-mq
   name: active-mq
@@ -21,7 +20,7 @@ spec:
     metadata:
       labels:
         app: active-mq
-    spec: 
+    spec:
       imagePullSecrets:
         - name: ocir-secret
       initContainers:
@@ -37,6 +36,12 @@ spec:
       - image: iad.ocir.io/orasenatdpltintegration03/jph/activemq
         imagePullPolicy: Always
         name: activemq
+        livenessProbe:
+          httpGet:
+            path: /index.html
+            port: 8161
+          initialDelaySeconds: 10
+          periodSeconds: 3
         ports:
         - containerPort: 61616
           name: jmx
@@ -56,7 +61,7 @@ spec:
         - containerPort: 1883
           name: mqtt
           protocol: TCP
-        resources: 
+        resources:
           requests:
             memory: 500Mi
             cpu: 200m
@@ -75,13 +80,13 @@ spec:
           subPath: mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar
       volumes:
       - name: activemq-config
-        configMap: 
+        configMap:
           name: activemq-config
           items:
           - key: activemq.xml
             path: activemq.xml
       - name: jetty-cm
-        configMap: 
+        configMap:
           name: jetty-cm
           items:
           - key: jetty.xml
@@ -92,4 +97,3 @@ spec:
       - name: workdir
         emptyDir: {}
       restartPolicy: Always
-
